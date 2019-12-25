@@ -28,11 +28,24 @@ public class PlayerCombat : MonoBehaviour {
         {
             if (Input.GetButton("Fire1") && anim.GetBool("grounded") == true)
             {
-                anim.SetTrigger("punch1");
-                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
-                for (int i = 0; i < enemiesToDamage.Length; i++)
+                if (anim.GetFloat("xvelocity") > 5f)
                 {
-                    enemiesToDamage[i].GetComponent<CorrodingSoldier>().TakeDamage(damage);
+                    anim.SetTrigger("elbowcharge");
+                    rb.velocity = new Vector2(rb.velocity.x * 50f, 1f);
+                    Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                    Instantiate(sparks, transform.position, Quaternion.identity);
+                    for (int i = 0; i < enemiesToDamage.Length; i++)
+                    {
+                        enemiesToDamage[i].GetComponent<CorrodingSoldier>().TakeDamage(damage+15);
+                    }
+                }
+                else{
+                    anim.SetTrigger("punch1");
+                    Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                    for (int i = 0; i < enemiesToDamage.Length; i++)
+                    {
+                        enemiesToDamage[i].GetComponent<CorrodingSoldier>().TakeDamage(damage);
+                    }
                 }
             }
             timeBtwAttack = startTimeBtwAttack;
