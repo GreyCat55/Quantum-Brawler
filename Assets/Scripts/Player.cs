@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         move = Input.GetAxis("Horizontal");
-        anim.SetFloat("xvelocity", Mathf.Abs(Input.GetAxis("Horizontal")));
+        anim.SetFloat("xvelocity", Mathf.Abs(move * 8));
         anim.SetFloat("yvelocity", rb.velocity.y);
         rb.velocity = new Vector2(move * 8, rb.velocity.y);
         anim.SetBool("grounded", grounded);
